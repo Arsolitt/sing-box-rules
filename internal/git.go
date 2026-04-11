@@ -2,6 +2,7 @@ package internal
 
 import (
 	"fmt"
+	"os"
 	"os/exec"
 	"strings"
 )
@@ -58,6 +59,12 @@ func (g *GitClient) CheckoutRuleSetBranch() error {
 }
 
 func (g *GitClient) getOriginURL() string {
+	token := os.Getenv("GITHUB_TOKEN")
+	repo := os.Getenv("GITHUB_REPOSITORY")
+	if token != "" && repo != "" {
+		return fmt.Sprintf("https://x-access-token:%s@github.com/%s.git", token, repo)
+	}
+
 	cmd := exec.Command("git", "remote", "get-url", "origin")
 	cmd.Dir = g.repoDir
 	out, err := cmd.CombinedOutput()
