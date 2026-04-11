@@ -22,6 +22,6 @@ jobs:
           go-version: '1.26.1'
 
       - name: Update rule sets
-        run: go run ./cmd/sing-box-rules
+        run: go run ./cmd/sing-box-rules -dummy
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

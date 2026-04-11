@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/rand"
 	"flag"
 	"fmt"
 	"log"
@@ -18,6 +19,7 @@ func main() {
 	configPath := flag.String("config", "config/domains.json", "path to domains config")
 	customRulesDir := flag.String("custom-rules", "custom-rules", "path to custom rules directory")
 	workDir := flag.String("work-dir", "", "working directory for git operations")
+	dummy := flag.Bool("dummy", false, "generate dummy .srs files instead of fetching from API")
 	flag.Parse()
 
 	configs, err := internal.LoadConfig(*configPath)
@@ -56,6 +58,20 @@ func main() {
 	var updatedDomains []string
 
 	for _, cfg := range outdated {
+		if *dummy {
+			log.Printf("generating dummy data for %s...", cfg.Domain)
+			dummyData := make([]byte, 64+cfg.IntervalDays*16)
+			rand.Read(dummyData)
+			outputPath := filepath.Join(*workDir, cfg.Name+".srs")
+			if err := os.WriteFile(outputPath, dummyData, 0644); err != nil {
+				log.Printf("error writing %s: %v, skipping.", cfg.Name, err)
+				continue
+			}
+			updatedDomains = append(updatedDomains, cfg.Name)
+			log.Printf("updated %s.srs", cfg.Name)
+			continue
+		}
+
 		log.Printf("fetching ranges for %s...", cfg.Domain)
 		resp, err := internal.FetchRanges(ipinfoBaseURL, cfg.Domain)
 		if err != nil {
