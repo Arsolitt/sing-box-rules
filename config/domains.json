@@ -1,26 +1,56 @@
 [
   {
-    "name": "github",
-    "domain": "github.com",
-    "interval_days": 30,
-    "extra_domains": ["github.io", "ghcr.io", "github.githubassets.com", "githubusercontent.com"]
-  },
-  {
     "name": "amazon",
     "domain": "amazon.com",
-    "interval_days": 7,
-    "extra_domains": ["amazonaws.com", "cloudfront.net"]
+    "interval_days": 1,
+    "extra_domains": ["amazonaws.com", "aws.com"]
   },
   {
-    "name": "cloudflare",
+    "name": "cdn77",
+    "domain": "cdn77.com",
+    "interval_days": 1,
+    "extra_domains": ["cdn77.org"]
+  },
+  {
+    "name": "cloudflare-full",
     "domain": "cloudflare.com",
-    "interval_days": 7,
+    "interval_days": 1,
+    "extra_domains": ["cdnjs.com", "cloudflarestatus.com", "one.one.one.one"]
+  },
+  {
+    "name": "fastly",
+    "domain": "fastly.net",
+    "interval_days": 3,
+    "extra_domains": []
+  },
+  {
+    "name": "linode",
+    "domain": "linode.com",
+    "interval_days": 3,
     "extra_domains": []
   },
   {
     "name": "microsoft",
     "domain": "microsoft.com",
-    "interval_days": 30,
-    "extra_domains": ["azure.com", "windows.net", "msn.com"]
+    "interval_days": 3,
+    "extra_domains": []
+  },
+  {
+    "name": "akamai",
+    "domain": "akamai.com",
+    "interval_days": 3,
+    "extra_domains": []
+  },
+  {
+    "name": "github",
+    "domain": "github.com",
+    "interval_days": 7,
+    "extra_domains": ["github.io", "ghcr.io", "githubassets.com", "githubusercontent.com"]
+  },
+  {
+    "name": "haproxy",
+    "domain": "haproxy.com",
+    "interval_days": 7,
+    "extra_domains": []
   }
 ]
