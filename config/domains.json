@@ -1,0 +1,26 @@
+[
+  {
+    "name": "github",
+    "domain": "github.com",
+    "interval_days": 30,
+    "extra_domains": ["github.io", "ghcr.io", "github.githubassets.com", "githubusercontent.com"]
+  },
+  {
+    "name": "amazon",
+    "domain": "amazon.com",
+    "interval_days": 7,
+    "extra_domains": ["amazonaws.com", "cloudfront.net"]
+  },
+  {
+    "name": "cloudflare",
+    "domain": "cloudflare.com",
+    "interval_days": 7,
+    "extra_domains": []
+  },
+  {
+    "name": "microsoft",
+    "domain": "microsoft.com",
+    "interval_days": 30,
+    "extra_domains": ["azure.com", "windows.net", "msn.com"]
+  }
+]
