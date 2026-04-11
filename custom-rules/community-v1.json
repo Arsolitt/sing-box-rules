@@ -1,0 +1,38 @@
+{
+  "version": 3,
+  "rules": [
+    {
+      "domain_suffix": [
+          "gstatic.com",
+          "steamstatic.com",
+          "steampowered.com",
+          "z.ai",
+          "anthropic.com",
+          "claude.ai",
+          "claude.com",
+          "quay.io",
+          "registry.k8s.io",
+          "cookielaw.org",
+          "daocloud.io",
+          "hashicorp.com",
+          "terraform.io",
+          "jsdelivr.net",
+          "unpkg.com",
+          "gitlab.com",
+          "alicdn.com",
+          "curseforge.com",
+          "forgecdn.net",
+          "modrinth.com",
+          "nodecdn.net",
+          "comss.ru",
+          "hf.co",
+          "k8s.io",
+          "siderolabs.com",
+          "docusign.com",
+          "docusign.net",
+          "ipinfo.io"
+      ],
+      "ip_cidr": []
+    }
+  ]
+}
