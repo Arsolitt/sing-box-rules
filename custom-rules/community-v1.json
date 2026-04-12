@@ -30,7 +30,10 @@
           "siderolabs.com",
           "docusign.com",
           "docusign.net",
-          "ipinfo.io"
+          "ipinfo.io",
+          "bybit.com",
+          "cdn-apple.com",
+          "apple.com"
       ],
       "ip_cidr": []
     }
