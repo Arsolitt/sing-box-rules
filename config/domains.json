@@ -39,7 +39,7 @@
     "name": "akamai",
     "domain": "akamai.com",
     "interval_days": 3,
-    "extra_domains": ["edgesuite.net", "akamai.net", "akamaiedge.net","akamaihd.net"]
+    "extra_domains": ["edgesuite.net", "akamai.net", "akamaiedge.net","akamaihd.net", "edgekey.net"]
   },
   {
     "name": "github",

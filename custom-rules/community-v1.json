@@ -33,7 +33,11 @@
           "ipinfo.io",
           "bybit.com",
           "cdn-apple.com",
-          "apple.com"
+          "apple.com",
+          "ping.lv",
+          "ooklaserver.net",
+          "doubleclick.net",
+          "ziffstatic.com"
       ],
       "ip_cidr": []
     }
