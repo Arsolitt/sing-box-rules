@@ -52,5 +52,11 @@
     "domain": "haproxy.com",
     "interval_days": 7,
     "extra_domains": []
+  },
+  {
+    "name": "oracle",
+    "domain": "oracle.com",
+    "interval_days": 7,
+    "extra_domains": []
   }
 ]
