@@ -58,5 +58,11 @@
     "domain": "oracle.com",
     "interval_days": 7,
     "extra_domains": []
+  },
+  {
+    "name": "hetzner-full",
+    "domain": "hetzner.de",
+    "interval_days": 7,
+    "extra_domains": []
   }
 ]
