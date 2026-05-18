@@ -34,7 +34,8 @@
           "cdn-apple.com",
           "apple.com",
           "doubleclick.net",
-          "ziffstatic.com"
+          "ziffstatic.com",
+          "cachyos.org"
       ],
       "ip_cidr": []
     }
