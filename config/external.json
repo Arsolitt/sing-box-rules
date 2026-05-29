@@ -1,0 +1,22 @@
+[
+  {
+    "name": "sing-geosite",
+    "type": "branch",
+    "repo": "SagerNet/sing-geosite",
+    "branch": "rule-set",
+    "prefix": "sagernet-"
+  },
+  {
+    "name": "sing-geoip",
+    "type": "branch",
+    "repo": "SagerNet/sing-geoip",
+    "branch": "rule-set",
+    "prefix": "sagernet-"
+  },
+  {
+    "name": "itdoginfo",
+    "type": "release",
+    "repo": "itdoginfo/allow-domains",
+    "prefix": "itdog-"
+  }
+]

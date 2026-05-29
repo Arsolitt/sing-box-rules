@@ -18,6 +18,7 @@ const ipinfoBaseURL = "https://ipinfo.io"
 func main() {
 	configPath := flag.String("config", "config/domains.json", "path to domains config")
 	customRulesDir := flag.String("custom-rules", "custom-rules", "path to custom rules directory")
+	externalPath := flag.String("external", "config/external.json", "path to external sources config")
 	workDir := flag.String("work-dir", "", "working directory for git operations")
 	dummy := flag.Bool("dummy", false, "generate dummy .srs files instead of fetching from API")
 	flag.Parse()
@@ -115,6 +116,27 @@ func main() {
 		}
 	}
 
+	var externalResults []internal.MirrorResult
+	if *dummy {
+		log.Println("dummy mode: skipping external sources")
+	} else {
+		log.Println("mirroring external sources...")
+		externalSources, err := internal.LoadExternalConfig(*externalPath)
+		if err != nil {
+			log.Printf("warning: external config error: %v", err)
+		} else {
+			for _, src := range externalSources {
+				result, err := internal.MirrorExternal(src, *workDir)
+				if err != nil {
+					log.Printf("error mirroring %s: %v, skipping.", src.Name, err)
+					continue
+				}
+				log.Printf("mirrored %s: %d files", src.Name, len(result.Files))
+				externalResults = append(externalResults, result)
+			}
+		}
+	}
+
 	if err := client.StageAll(); err != nil {
 		log.Fatalf("git stage: %v", err)
 	}
@@ -130,7 +152,7 @@ func main() {
 	}
 
 	sort.Strings(updatedDomains)
-	commitMsg := buildCommitMessage(updatedDomains, customResults)
+	commitMsg := buildCommitMessage(updatedDomains, customResults, externalResults)
 	log.Printf("committing: %s", commitMsg)
 
 	if err := client.Commit(commitMsg); err != nil {
@@ -150,15 +172,23 @@ func main() {
 	log.Println("done!")
 }
 
-func buildCommitMessage(domains []string, customResults []internal.CustomResult) string {
-	if len(domains) > 0 && len(customResults) > 0 {
-		return fmt.Sprintf("update: %s, custom (%d rules)", strings.Join(domains, ", "), len(customResults))
-	}
+func buildCommitMessage(domains []string, customResults []internal.CustomResult, externalResults []internal.MirrorResult) string {
+	var parts []string
 	if len(domains) > 0 {
-		return fmt.Sprintf("update: %s (%d domains)", strings.Join(domains, ", "), len(domains))
+		parts = append(parts, fmt.Sprintf("%s (%d domains)", strings.Join(domains, ", "), len(domains)))
 	}
 	if len(customResults) > 0 {
-		return fmt.Sprintf("update: custom (%d rules)", len(customResults))
+		parts = append(parts, fmt.Sprintf("custom (%d rules)", len(customResults)))
 	}
-	return "update: (no changes)"
+	externalCount := 0
+	for _, r := range externalResults {
+		externalCount += len(r.Files)
+	}
+	if externalCount > 0 {
+		parts = append(parts, fmt.Sprintf("external (%d files)", externalCount))
+	}
+	if len(parts) == 0 {
+		return "update: (no changes)"
+	}
+	return "update: " + strings.Join(parts, ", ")
 }
