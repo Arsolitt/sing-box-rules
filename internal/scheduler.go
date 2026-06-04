@@ -33,7 +33,7 @@ func DetermineOutdated(client *GitClient, configs []DomainConfig) ([]DomainConfi
 }
 
 func getLastCommitDate(client *GitClient, filename string) (time.Time, error) {
-	out, err := client.RunGit("log", "--format=%at", "--follow", "--", filename)
+	out, err := client.RunGit("log", "--format=%at", "--follow", "--max-count=1", "--", filename)
 	if err != nil {
 		return time.Time{}, nil
 	}
