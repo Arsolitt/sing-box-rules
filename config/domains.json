@@ -60,6 +60,12 @@
     "extra_domains": []
   },
   {
+    "name": "shopify",
+    "domain": "myshopify.com",
+    "interval_days": 7,
+    "extra_domains": []
+  },
+  {
     "name": "hetzner-full",
     "domain": "hetzner.de",
     "interval_days": 7,
