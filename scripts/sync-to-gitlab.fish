@@ -31,7 +31,7 @@ for branch in $pull_branches
     set --local upstream (git rev-parse --abbrev-ref "$branch@{upstream}" 2>/dev/null)
     if test $status -eq 0; and string match --quiet 'origin/*' $upstream
         echo "Pulling branch: $branch"
-        git pull origin $branch --ff-only
+        git pull origin $branch --rebase
         if test $status -ne 0
             echo "Warning: failed to pull branch '$branch', pushing current state"
         end
