@@ -26,18 +26,6 @@ end
 echo "Fetching from origin..."
 git fetch origin --prune
 
-set --local pull_branches (git for-each-ref --format='%(refname:short)' refs/heads/)
-for branch in $pull_branches
-    set --local upstream (git rev-parse --abbrev-ref "$branch@{upstream}" 2>/dev/null)
-    if test $status -eq 0; and string match --quiet 'origin/*' $upstream
-        echo "Pulling branch: $branch"
-        git pull origin $branch --rebase
-        if test $status -ne 0
-            echo "Warning: failed to pull branch '$branch', pushing current state"
-        end
-    end
-end
-
 set --local existing_url (git remote get-url $REMOTE_NAME 2>/dev/null)
 if test $status -eq 0
     if test (count $argv) -gt 0; and test "$argv[1]" != "$existing_url"
