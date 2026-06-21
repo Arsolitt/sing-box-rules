@@ -20,7 +20,8 @@ if not git rev-parse --is-inside-work-tree >/dev/null 2>&1
 end
 
 if not git diff --quiet 2>/dev/null; or not git diff --cached --quiet 2>/dev/null
-    echo "Warning: uncommitted changes detected. Syncing committed state only."
+    echo "Warning: uncommitted changes detected. Commit or stash before syncing."
+    exit 1
 end
 
 echo "Fetching from origin..."
@@ -45,11 +46,40 @@ if test "$dry_run" = true
     set push_args --dry-run
 end
 
-set --local branches (git for-each-ref --format='%(refname:short)' refs/heads/)
+# Collect branches from origin (skip symbolic refs like refs/remotes/origin/HEAD).
+set --local branches
+for ref in (git for-each-ref --format='%(refname)' refs/remotes/origin/)
+    test "$ref" = refs/remotes/origin/HEAD; and continue
+    set --append branches (string replace 'refs/remotes/origin/' '' $ref)
+end
+
+set --local current_branch (git rev-parse --abbrev-ref HEAD 2>/dev/null)
 set --local branches_pushed 0
 
 for branch in $branches
-    echo "Pushing branch: $branch"
+    echo ""
+    echo "=== $branch ==="
+
+    # Switch to the branch; create it from origin if it doesn't exist locally.
+    if git show-ref --verify --quiet refs/heads/$branch
+        git checkout $branch
+    else
+        echo "Creating local branch from origin/$branch"
+        git checkout -b $branch origin/$branch
+    end
+    if test $status -ne 0
+        echo "Error: failed to switch to '$branch'"
+        set errors (math $errors + 1)
+        continue
+    end
+
+    echo "Pulling from origin..."
+    git pull --ff-only origin $branch
+    if test $status -ne 0
+        echo "Warning: pull for '$branch' did not fast-forward (diverged?)"
+    end
+
+    echo "Pushing to $REMOTE_NAME..."
     git push $REMOTE_NAME $branch $push_args
     if test $status -ne 0
         echo "Error: failed to push branch '$branch'"
@@ -57,6 +87,11 @@ for branch in $branches
     else
         set branches_pushed (math $branches_pushed + 1)
     end
+end
+
+# Return to the branch we started on.
+if test -n "$current_branch"
+    git checkout $current_branch >/dev/null 2>&1
 end
 
 set --local tags (git for-each-ref --format='%(refname:short)' refs/tags/)
